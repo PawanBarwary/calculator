@@ -54,10 +54,10 @@ const checkForCommas = (number) => {
 
 // Click functions
 const clickNumber = (number) => {
-
-  if (checkForCommas(number)) return ;
   ac.textContent = "C";
-  
+  if (checkForCommas(number)) return ;
+  if (number.textContent == "0" && 
+      (result.textContent == "0" || result.textContent == "-0")) return;
   if (afterOperator==true) {
     currentCalculation.numbers.push(currentNumber);
     currentNumber = "";
@@ -88,8 +88,9 @@ const clickOperator = (operator) => {
 };
 
 const clear = () => {
-  ac.textContent = "AC";
   result.textContent = "0";
+  currentCalculation.operator.classList.remove('click-operator');
+  ac.textContent = "AC";
   resetCalculation();
   if(afterOperator){
     currentCalculation.operator.classList.remove('click-operator');
