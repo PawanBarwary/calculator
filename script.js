@@ -3,23 +3,53 @@ const numbers = document.querySelectorAll('.numbers');
 const operators = document.querySelectorAll('.operators')
 const result = document.querySelector('.results');
 const ac = document.querySelector('#AC');
+const plusminus = document.querySelector('#plusminus');
+const percent = document.querySelector('#percent');
 const equal = document.querySelector('#equal');
 
-let currentCalculation = "";
-let currentOperator;
+// Declaring variables about the ongoing calculation
+let currentNumber = "";
 let afterOperator = false;
+let currentCalculation = {
+  numbers: [],
+  operator: null
+};
+
+const resetCalculation = () => {
+  currentCalculation = {
+    numbers: [],
+    operator: null
+  };
+  currentNumber = "";
+};
+
+ 
 // Functions for basic arithmetic
 const add = (a, b) => (a + b); 
 const subtract = (a, b) => (a - b);
 const multiply = (a, b) => (a * b);
 const divide = (a, b) => (a / b);
-const powers = (a, b) => (a ** b);
+
+const funcFromElement = (element) => {
+  switch(element) {
+    case "+":
+      return add;
+    case "-":
+      return subtract;
+    case "/":
+      return divide;
+    case "X":
+      return multiply;
+  }
+};
 
 // Click functions
 const clickNumber = (number) => {
   if (afterOperator==true) {
+    currentCalculation.numbers.push(currentNumber);
+    currentNumber = "";
     result.textContent = number.textContent;
-    currentOperator.classList.remove('click-operator');
+    currentCalculation.operator.classList.remove('click-operator');
     afterOperator = false;
   }
   else if (result.textContent == "0") {
@@ -28,27 +58,50 @@ const clickNumber = (number) => {
   else {
     result.textContent += number.textContent;
   }
-  currentCalculation += number.textContent
+  currentNumber += number.textContent;
 };
 
 const clickOperator = (operator) => {
   if (afterOperator) {
-    currentOperator.classList.remove('click-operator');
-    currentCalculation = currentCalculation.slice(0, currentCalculation.length-1);
+    currentCalculation.operator.classList.remove('click-operator');
   }
-  currentOperator = operator;
+  currentCalculation.operator = operator;
   operator.classList.add('click-operator');
-  currentCalculation += operator.textContent;
   afterOperator = true;
 };
 
 const clear = () => {
   result.textContent = "0"
-  currentOperator.classList.remove('click-operator');
+  resetCalculation();
+  if(afterOperator){
+    currentCalculation.operator.classList.remove('click-operator');
+  }
 }
 
-// Click event listeners
+const calculate = () => {
+  currentCalculation.numbers.push(currentNumber);
+  console.log(currentCalculation);
+  let calc = funcFromElement(currentCalculation.operator.textContent);
+  let num1 = parseFloat(currentCalculation.numbers[0]);
+  let num2 = parseFloat(currentCalculation.numbers[1]);
+  result.textContent = calc(num1, num2);
+  resetCalculation();
+};
 
+const changeSign = () => {
+  if (currentNumber.charAt(0) == "-"){
+    currentNumber = currentNumber.slice(1, currentNumber.length);
+  }
+  else if (result.textContent == "0") currentNumber = "-"+"0";
+  else currentNumber = "-" + currentNumber;
+  result.textContent = currentNumber;
+};
+
+const toPercent = () => {
+  currentNumber = currentNumber / 100;
+  result.textContent = currentNumber;
+}
+// Click event listeners
 numbers.forEach(number => {
   number.addEventListener('click', () => clickNumber(number));
 });
@@ -58,11 +111,8 @@ operators.forEach(operator => {
 });
 
 ac.addEventListener('click', clear);
-
-equal.addEventListener('click', () => {
-  currentCalculation = currentCalculation.slice(0, currentCalculation.length-1);
-  console.log(currentCalculation);
-
-});
+plusminus.addEventListener('click', changeSign);
+equal.addEventListener('click', calculate);
+percent.addEventListener('click', toPercent);
 
 

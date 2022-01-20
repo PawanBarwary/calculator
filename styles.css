@@ -40,7 +40,7 @@ body {
   background-color: #313131;
 }
 
-.operators {
+.operators, #equal {
   background-color: #f69906;
 }
 
