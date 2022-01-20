@@ -43,8 +43,21 @@ const funcFromElement = (element) => {
   }
 };
 
+const checkForCommas = (number) => {
+  if(number.textContent == ".") {
+    let dotIn = Array.from(currentNumber).some( character => {
+      return character == ".";
+    });
+    return dotIn;
+  }
+}
+
 // Click functions
 const clickNumber = (number) => {
+
+  if (checkForCommas(number)) return ;
+  ac.textContent = "C";
+  
   if (afterOperator==true) {
     currentCalculation.numbers.push(currentNumber);
     currentNumber = "";
@@ -52,7 +65,7 @@ const clickNumber = (number) => {
     currentCalculation.operator.classList.remove('click-operator');
     afterOperator = false;
   }
-  else if (result.textContent == "0") {
+  else if (result.textContent == "0" && number.textContent != ".") {
     result.textContent = number.textContent;
   } 
   else {
@@ -62,6 +75,9 @@ const clickNumber = (number) => {
 };
 
 const clickOperator = (operator) => {
+  if (currentCalculation.numbers.length == 1) {
+    calculate();
+  }
   if (afterOperator) {
     currentCalculation.operator.classList.remove('click-operator');
   }
@@ -71,7 +87,8 @@ const clickOperator = (operator) => {
 };
 
 const clear = () => {
-  result.textContent = "0"
+  ac.textContent = "AC";
+  result.textContent = "0";
   resetCalculation();
   if(afterOperator){
     currentCalculation.operator.classList.remove('click-operator');
@@ -86,6 +103,8 @@ const calculate = () => {
   let num2 = parseFloat(currentCalculation.numbers[1]);
   result.textContent = calc(num1, num2);
   resetCalculation();
+  currentNumber = result.textContent
+  currentCalculation.numbers.push(currentNumber);
 };
 
 const changeSign = () => {
@@ -114,5 +133,3 @@ ac.addEventListener('click', clear);
 plusminus.addEventListener('click', changeSign);
 equal.addEventListener('click', calculate);
 percent.addEventListener('click', toPercent);
-
-
