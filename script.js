@@ -75,6 +75,7 @@ const clickNumber = (number) => {
 };
 
 const clickOperator = (operator) => {
+  console.log(currentCalculation);
   if (currentCalculation.numbers.length == 1) {
     calculate();
   }
@@ -103,8 +104,7 @@ const calculate = () => {
   let num2 = parseFloat(currentCalculation.numbers[1]);
   result.textContent = calc(num1, num2);
   resetCalculation();
-  currentNumber = result.textContent
-  currentCalculation.numbers.push(currentNumber);
+  currentNumber = result.textContent;
 };
 
 const changeSign = () => {
