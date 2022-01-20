@@ -36,13 +36,14 @@ const funcFromElement = (element) => {
       return add;
     case "-":
       return subtract;
-    case "/":
+    case "÷":
       return divide;
-    case "X":
+    case "x":
       return multiply;
   }
 };
 
+// Click functions
 const checkForCommas = (number) => {
   if(number.textContent == ".") {
     let dotIn = Array.from(currentNumber).some( character => {
@@ -52,7 +53,6 @@ const checkForCommas = (number) => {
   }
 }
 
-// Click functions
 const clickNumber = (number) => {
   ac.textContent = "C";
   if (checkForCommas(number)) return ;
@@ -75,7 +75,6 @@ const clickNumber = (number) => {
 };
 
 const clickOperator = (operator) => {
-  console.log(currentCalculation);
   if (currentCalculation.numbers.length == 1) {
     calculate();
   }
@@ -88,13 +87,12 @@ const clickOperator = (operator) => {
 };
 
 const clear = () => {
-  result.textContent = "0";
-  currentCalculation.operator.classList.remove('click-operator');
   ac.textContent = "AC";
-  resetCalculation();
+  result.textContent = "0";
   if(afterOperator){
     currentCalculation.operator.classList.remove('click-operator');
   }
+  resetCalculation();
 }
 
 const calculate = () => {

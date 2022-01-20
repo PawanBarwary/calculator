@@ -10,14 +10,17 @@ body {
 .calculator {
   background-color: black;
   color: white;
-  border-radius: 40px;
+  border: 7px solid aquamarine;
+  border-radius: 50px;
 }
 
 .results {
+  font-weight: lighter;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2em 1em;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 3em 1em 0em 1em;
+  font-size: 2em; 
 }
 
 .button {
@@ -27,8 +30,20 @@ body {
   cursor: pointer;
 }
 
+.menu-buttons:hover {
+  background-color:#c0c0c0;
+}
+
+.numbers:hover {
+  background-color: #535353;;
+}
+
+.operators:hover, #equal:hover {
+  background-color: #f8b64b;
+}
+
 .button-grid {
-  padding: 1em;
+  padding: .6em;
   gap: .5em;
   height: 40vh;
   width: 32vh;
