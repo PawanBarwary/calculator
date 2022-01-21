@@ -23,7 +23,6 @@ const resetCalculation = () => {
   currentNumber = "";
 };
 
- 
 // Functions for basic arithmetic
 const add = (a, b) => (a + b); 
 const subtract = (a, b) => (a - b);
@@ -43,18 +42,53 @@ const funcFromElement = (element) => {
   }
 };
 
+const makeNumSmaller = (num) => {
+  let i = 0;
+  while (responsiveFont(num) === false) {
+    num = Math.round(num/(10**i)) * 10**i;
+    num = num.toExponential();
+    i++
+  }
+  return num;
+}
+  
+//Make sure the number fits 
+const responsiveFont = (num) => {
+  const length = num.toString().length;
+  if (length < 7) {
+    result.style.fontSize = '2em';
+  }
+  else if (length < 10) {
+    result.style.fontSize = '1.5em';
+  }
+  else if (length < 18){
+    result.style.fontSize = '1em';
+    if (length == 17) {
+      return false;
+    }
+  } 
+  else {
+    result.style.fontSize = '1em';
+    return false;
+  }
+};
+
+
 // Click functions
 const checkForCommas = (number) => {
   if(number.textContent == ".") {
-    let dotIn = Array.from(currentNumber).some( character => {
+    const dotIn = Array.from(currentNumber).some( character => {
       return character == ".";
     });
     return dotIn;
   }
-}
+};
 
 const clickNumber = (number) => {
+
   ac.textContent = "C";
+  const handleSize = responsiveFont(currentNumber);
+  if (handleSize == false && afterOperator == false) return ;
   if (checkForCommas(number)) return ;
   if (number.textContent == "0" && 
       (result.textContent == "0" || result.textContent == "-0")) return;
@@ -62,7 +96,9 @@ const clickNumber = (number) => {
     currentCalculation.numbers.push(currentNumber);
     currentNumber = "";
     result.textContent = number.textContent;
-    currentCalculation.operator.classList.remove('click-operator');
+    if (currentCalculation.operator){
+      currentCalculation.operator.classList.remove('click-operator');
+    }
     afterOperator = false;
   }
   else if (result.textContent == "0" && number.textContent != ".") {
@@ -89,19 +125,27 @@ const clickOperator = (operator) => {
 const clear = () => {
   ac.textContent = "AC";
   result.textContent = "0";
-  if(afterOperator){
+  responsiveFont("0");
+  if(currentCalculation.operator){
     currentCalculation.operator.classList.remove('click-operator');
   }
   resetCalculation();
 }
 
 const calculate = () => {
+  if (afterOperator) {
+    currentCalculation.operator.classList.remove('click-operator');
+    return;
+  }
   currentCalculation.numbers.push(currentNumber);
-  console.log(currentCalculation);
-  let calc = funcFromElement(currentCalculation.operator.textContent);
-  let num1 = parseFloat(currentCalculation.numbers[0]);
-  let num2 = parseFloat(currentCalculation.numbers[1]);
-  result.textContent = calc(num1, num2);
+  const calc = funcFromElement(currentCalculation.operator.textContent);
+  const num1 = parseFloat(currentCalculation.numbers[0]);
+  const num2 = parseFloat(currentCalculation.numbers[1]);
+  let solution = calc(num1, num2);
+  if (solution == "Infinity" || solution == "-Infinity" || solution == "NaN") solution = "ERROR";
+  solution = parseFloat(solution);
+  if (responsiveFont(solution) == false) solution = makeNumSmaller(solution);
+  result.textContent = solution;
   resetCalculation();
   currentNumber = result.textContent;
 };
@@ -117,6 +161,7 @@ const changeSign = () => {
 
 const toPercent = () => {
   currentNumber = currentNumber / 100;
+  currentNumber = makeNumSmaller(currentNumber);
   result.textContent = currentNumber;
 }
 // Click event listeners
