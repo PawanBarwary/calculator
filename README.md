@@ -3,6 +3,9 @@
 ## About This Project
 This project is an in-browser calculator that seeks to mimic the iphone calculator.
 
+## Preview
+<img src="img/iphone.png" width=500px> 
+
 ## Some Useful Features
 - Numbers never overflow the screen.
   - As the user inputs longer numbers, the font size dynamically decreases until the maximum number of digits have been used. 
@@ -11,9 +14,7 @@ This project is an in-browser calculator that seeks to mimic the iphone calculat
 ## Made With
 This is a web application made using HTML, CSS and Vanilla JavaScript. 
 
-## Preview
-<img src="img/iphone.png" width=500px> 
 
 ---
 ## Try It Out
-InsertLink.com
+https://pawanbarwary.github.io/calculator/
