@@ -19,27 +19,17 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding: 3em 1em 0em 1em;
+  padding-right: 4vh;
+  height: 22vh;
   font-size: 2em; 
 }
 
 .button {
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-}
-
-.menu-buttons:hover {
-  background-color:#c0c0c0;
-}
-
-.numbers:hover {
-  background-color: #535353;;
-}
-
-.operators:hover, #equal:hover {
-  background-color: #f8b64b;
 }
 
 .button-grid {
@@ -51,21 +41,34 @@ body {
   grid-template-columns: repeat(4, 1fr);
 }
 
-.numbers {
-  background-color: #313131;
+.menu-buttons {
+  background-color:#a0a0a0;
+  color: black;
+}
+
+.menu-buttons:hover {
+  background-color:#c0c0c0;
+}
+
+.numbers:hover {
+  background-color: #535353;;
 }
 
 .operators, #equal {
   background-color: #f69906;
 }
 
-.menu-buttons {
-  background-color:#a0a0a0;
-  color: black;
+.operators:hover, #equal:hover {
+  background-color: #f8b64b;
 }
 
-.button {
-  border-radius: 50%;
+.click-operator {
+  background-color: white;
+  color: #f69906;
+}
+
+.numbers {
+  background-color: #313131;
 }
 
 .zero {
@@ -75,7 +78,3 @@ body {
   grid-column: span 2;
 }
 
-.click-operator {
-  background-color: white;
-  color: #f69906;
-}
