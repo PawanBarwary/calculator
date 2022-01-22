@@ -1,7 +1,7 @@
 # iPhone Calculator 
 
 ## About This Project
-This project is an in-browser calculator that seeks to mimic the iphone calculator.
+This project is an in-browser calculator that seeks to mimic the iPhone calculator.
 
 ## Preview
 <img src="img/iphone.png" width=500px> 
