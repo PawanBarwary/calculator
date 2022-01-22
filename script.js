@@ -42,17 +42,8 @@ const funcFromElement = (element) => {
   }
 };
 
-const makeNumSmaller = (num) => {
-  let i = 0;
-  while (responsiveFont(num) === false) {
-    num = Math.round(num/(10**i)) * 10**i;
-    num = num.toExponential();
-    i++
-  }
-  return num;
-}
   
-//Make sure the number fits 
+// Changes font size based on number length. Numbers that are too large return false. 
 const responsiveFont = (num) => {
   const length = num.toString().length;
   if (length < 7) {
@@ -73,8 +64,18 @@ const responsiveFont = (num) => {
   }
 };
 
+// Rounds and turns number into scientific notation until it fits the screen. 
 
-// Click functions
+const makeNumSmaller = (num) => {
+  let i = 0;
+  while (responsiveFont(num) === false) {
+    num = Math.round(num/(10**i)) * 10**i;
+    num = num.toExponential();
+    i++
+  }
+  return num;
+}
+
 const checkForCommas = (number) => {
   if(number.textContent == ".") {
     const dotIn = Array.from(currentNumber).some( character => {
@@ -84,30 +85,31 @@ const checkForCommas = (number) => {
   }
 };
 
-const clickNumber = (number) => {
+// Click functions
 
+
+const clickNumber = (numberButton) => {
   ac.textContent = "C";
   const handleSize = responsiveFont(currentNumber);
-  if (handleSize == false && afterOperator == false) return ;
-  if (checkForCommas(number)) return ;
-  if (number.textContent == "0" && 
+  if (handleSize == false && afterOperator == false) return ; 
+  if (checkForCommas(numberButton)) return ;
+  if (numberButton.textContent == "0" && 
       (result.textContent == "0" || result.textContent == "-0")) return;
   if (afterOperator==true) {
     currentCalculation.numbers.push(currentNumber);
     currentNumber = "";
-    result.textContent = number.textContent;
+    result.textContent = numberButton.textContent;
     if (currentCalculation.operator){
       currentCalculation.operator.classList.remove('click-operator');
     }
     afterOperator = false;
   }
-  else if (result.textContent == "0" && number.textContent != ".") {
-    result.textContent = number.textContent;
+  else if (result.textContent == "0" && numberButton.textContent != ".") {
+    result.textContent = numberButton.textContent;
   } 
-  else {
-    result.textContent += number.textContent;
-  }
-  currentNumber += number.textContent;
+  else result.textContent += numberButton.textContent;
+
+  currentNumber += numberButton.textContent;
 };
 
 const clickOperator = (operator) => {
@@ -164,6 +166,7 @@ const toPercent = () => {
   currentNumber = makeNumSmaller(currentNumber);
   result.textContent = currentNumber;
 }
+
 // Click event listeners
 numbers.forEach(number => {
   number.addEventListener('click', () => clickNumber(number));
